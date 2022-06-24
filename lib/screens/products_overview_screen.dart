@@ -48,7 +48,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
         ],
       ),
       body: ProductsGrid(
-        showFavorite: _showOnlyFavorites,
+        showOnlyFavorite: _showOnlyFavorites,
       ),
     );
   }
