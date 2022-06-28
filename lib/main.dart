@@ -1,24 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop/models/cart_provider.dart';
 import 'package:shop/models/products_provider.dart';
+import 'package:shop/screens/cart_screen.dart';
 import 'package:shop/screens/product_detail_screen.dart';
 import 'package:shop/screens/products_overview_screen.dart';
-import 'package:provider/provider.dart';
 
 void main() {
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => Products(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => Products(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => Cart(),
+        ),
+      ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
-          primarySwatch: Colors.yellow,
-          accentColor: Colors.lightGreen,
+          appBarTheme: AppBarTheme(foregroundColor: Colors.black87),
+          colorScheme: ColorScheme.fromSwatch().copyWith(
+            primary: Colors.yellow,
+            secondary: Colors.lightGreen,
+          ),
           fontFamily: 'Lato',
         ),
         home: ProductsOverviewScreen(),
         routes: {
-          ProductsDetailScreen.id: (context) => ProductsDetailScreen(),
+          ProductsDetailScreen.routeName: (context) =>
+              const ProductsDetailScreen(),
+          CartScreen.routeName: (context) => const CartScreen(),
         },
       ),
     ),

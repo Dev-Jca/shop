@@ -39,12 +39,14 @@ class Products with ChangeNotifier {
 
   // bool _showFavoritesOnly = false;
   List<Product> get items {
-    // if (_showFavoritesOnly==true) {
+    //(B) if (_showFavoritesOnly==true) {
     //   return _items.where((product) => product.isFavorite).toList();
     // }
     return [..._items];
   }
 
+//(A)this particular methods(in A and B) will affect our data is
+//shared globally accross the app, hence it is not needed for this particular app
   // void showFavoritesOnly() {
   //   _showFavoritesOnly = true;
   //   notifyListeners();
