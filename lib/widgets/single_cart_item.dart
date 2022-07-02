@@ -21,7 +21,6 @@ class SingleCartItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cart = Provider.of<Cart>(context);
     return Dismissible(
       key: ValueKey(id),
       background: Container(
@@ -40,7 +39,7 @@ class SingleCartItem extends StatelessWidget {
       ),
       direction: DismissDirection.endToStart,
       onDismissed: (direction) {
-        cart.removeItem(productId);
+        Provider.of<Cart>(context, listen: false).removeItem(productId);
       },
       child: Card(
         margin: const EdgeInsets.symmetric(
@@ -48,7 +47,7 @@ class SingleCartItem extends StatelessWidget {
           vertical: 4,
         ),
         child: Padding(
-          padding: EdgeInsets.all(8),
+          padding: const EdgeInsets.all(8),
           child: ListTile(
             leading: CircleAvatar(
               backgroundColor: Theme.of(context).colorScheme.primary,
@@ -57,7 +56,7 @@ class SingleCartItem extends StatelessWidget {
                 child: FittedBox(
                     child: Text(
                   '\$$price',
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Colors.black, fontWeight: FontWeight.bold),
                 )),
               ),
