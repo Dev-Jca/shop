@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shop/screens/orders_screen.dart';
+import './screens/orders_screen.dart';
+import './screens/user_products_screen.dart';
 import './models/cart_provider.dart';
 import './models/products_provider.dart';
 import './screens/cart_screen.dart';
@@ -41,6 +42,7 @@ void main() {
           OrdersScreen.routeName: (context) => const OrdersScreen(),
           ProductsOverviewScreen.routeName: (context) =>
               ProductsOverviewScreen(),
+          UserProductsScreen.routeName: (context) => const UserProductsScreen(),
         },
       ),
     ),
