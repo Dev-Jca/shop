@@ -26,7 +26,7 @@ class ProductItem extends StatelessWidget {
           leading: Consumer<Product>(
             builder: (BuildContext context, product, Widget? child) {
               return IconButton(
-                color: Colors.lightGreen,
+                color: Theme.of(context).colorScheme.secondary,
                 onPressed: () {
                   product.toggleFavoriteStatus();
                 },
@@ -37,7 +37,7 @@ class ProductItem extends StatelessWidget {
             },
           ),
           trailing: IconButton(
-            color: Colors.lightGreen,
+            color: Theme.of(context).colorScheme.secondary,
             onPressed: () {
               cart.addItem(product.id, product.price, product.title);
               Scaffold.of(context).hideCurrentSnackBar();

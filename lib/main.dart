@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import './screens/edit_product_screen.dart';
 import './screens/orders_screen.dart';
 import './screens/user_products_screen.dart';
 import './models/cart_provider.dart';
@@ -27,10 +28,10 @@ void main() {
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
-          appBarTheme: const AppBarTheme(foregroundColor: Colors.black87),
+          // appBarTheme: const AppBarTheme(foregroundColor: Colors.black87),
           colorScheme: ColorScheme.fromSwatch().copyWith(
-            primary: Colors.yellow,
-            secondary: Colors.lightGreen,
+            primary: Colors.indigo,
+            secondary: Colors.teal,
           ),
           fontFamily: 'Lato',
         ),
@@ -43,6 +44,7 @@ void main() {
           ProductsOverviewScreen.routeName: (context) =>
               ProductsOverviewScreen(),
           UserProductsScreen.routeName: (context) => const UserProductsScreen(),
+          EditProductScreen.routeName: (context) => const EditProductScreen(),
         },
       ),
     ),

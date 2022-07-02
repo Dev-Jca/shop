@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../models/cart_provider.dart';
 
 class SingleCartItem extends StatelessWidget {
@@ -24,7 +23,7 @@ class SingleCartItem extends StatelessWidget {
     return Dismissible(
       key: ValueKey(id),
       background: Container(
-        color: Colors.grey.withOpacity(0.1),
+        color: Colors.red.withOpacity(0.3),
         alignment: Alignment.centerRight,
         padding: const EdgeInsets.only(right: 20),
         margin: const EdgeInsets.symmetric(
