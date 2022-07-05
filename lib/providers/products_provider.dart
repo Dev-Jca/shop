@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../models/http_exception.dart';
 import 'product_provider.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -100,7 +101,6 @@ class Products with ChangeNotifier {
           'isFavorite': product.isFavorite,
         }),
       );
-
       final newProduct = Product(
           id: json.decode(response.body)['name'],
           title: product.title,
@@ -125,9 +125,18 @@ class Products with ChangeNotifier {
     return _items.firstWhere((product) => product.id == id);
   }
 
-  void updateProduct(String id, Product newProduct) {
+  Future<void> updateProduct(String id, Product newProduct) async {
     final prodIndex = _items.indexWhere((prod) => prod.id == id);
     if (prodIndex >= 0) {
+      var url = Uri.parse(
+          'https://shop-fd5bb-default-rtdb.firebaseio.com/products/$id.json');
+      await http.patch(url,
+          body: json.encode({
+            'title': newProduct.title,
+            'description': newProduct.description,
+            'imageUrl': newProduct.imageUrl,
+            'price': newProduct.price,
+          }));
       _items[prodIndex] = newProduct;
       notifyListeners();
     } else {
@@ -135,8 +144,20 @@ class Products with ChangeNotifier {
     }
   }
 
-  void deleteProduct(String id) {
-    _items.removeWhere((prod) => prod.id == id);
+  Future<void> deleteProduct(String id) async {
+    var url = Uri.parse(
+        'https://shop-fd5bb-default-rtdb.firebaseio.com/products/$id.json');
+    final exisitingProductIndex = _items.indexWhere((prod) => prod.id == id);
+    dynamic existingProduct = _items[exisitingProductIndex];
+    // _items.removeWhere((prod) => prod.id == id);
+    _items.removeAt(exisitingProductIndex);
     notifyListeners();
+    final response = await http.delete(url);
+    if (response.statusCode >= 400) {
+      _items.insert(exisitingProductIndex, existingProduct);
+      notifyListeners();
+      throw HttpException('could not delete product');
+    }
+    existingProduct = null;
   }
 }

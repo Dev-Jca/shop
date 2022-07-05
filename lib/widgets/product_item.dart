@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shop/screens/product_detail_screen.dart';
+import '../screens/product_detail_screen.dart';
 
-import '../models/cart_provider.dart';
-import '../models/product_provider.dart';
+import '../providers/cart_provider.dart';
+import '../providers/product_provider.dart';
 
 class ProductItem extends StatelessWidget {
   // final String id;
