@@ -19,39 +19,49 @@ void main() {
         ChangeNotifierProvider(
           create: (context) => Auth(),
         ),
-        ChangeNotifierProvider(
-          create: (context) => Products(),
+        ChangeNotifierProxyProvider<Auth, Products>(
+          update: (context, auth, previousProducts) => Products(
+            auth.token,
+            auth.userId,
+            previousProducts == null ? [] : previousProducts.items,
+          ),
+          create: (_) => Products('', '', []),
         ),
         ChangeNotifierProvider(
           create: (context) => Cart(),
         ),
-        ChangeNotifierProvider(
-          create: (context) => Orders(),
+        ChangeNotifierProxyProvider<Auth, Orders>(
+          update: (context, auth, previousOrders) => Orders(
+              auth.token, previousOrders == null ? [] : previousOrders.orders),
+          create: (context) => Orders('', []),
         ),
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          // appBarTheme: const AppBarTheme(foregroundColor: Colors.black87),
-          colorScheme: ColorScheme.fromSwatch().copyWith(
-            primary: Colors.indigo,
-            secondary: Colors.teal,
+      child: Consumer<Auth>(
+        builder: (context, auth, child) => MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            // appBarTheme: const AppBarTheme(foregroundColor: Colors.black87),
+            colorScheme: ColorScheme.fromSwatch().copyWith(
+              primary: Colors.indigo,
+              secondary: Colors.teal,
+            ),
+            fontFamily: 'Lato',
           ),
-          fontFamily: 'Lato',
+          home: auth.isAuth ? ProductsOverviewScreen() : AuthScreen(),
+          routes: {
+            ProductsDetailScreen.routeName: (context) =>
+                const ProductsDetailScreen(),
+            CartScreen.routeName: (context) => const CartScreen(),
+            OrdersScreen.routeName: (context) => const OrdersScreen(),
+            ProductsOverviewScreen.routeName: (context) =>
+                ProductsOverviewScreen(),
+            UserProductsScreen.routeName: (context) =>
+                const UserProductsScreen(),
+            EditProductScreen.routeName: (context) => const EditProductScreen(),
+            AuthScreen.routeName: (context) => AuthScreen(),
+          },
         ),
-        home: AuthScreen(),
-        routes: {
-          ProductsDetailScreen.routeName: (context) =>
-              const ProductsDetailScreen(),
-          CartScreen.routeName: (context) => const CartScreen(),
-          OrdersScreen.routeName: (context) => const OrdersScreen(),
-          ProductsOverviewScreen.routeName: (context) =>
-              ProductsOverviewScreen(),
-          UserProductsScreen.routeName: (context) => const UserProductsScreen(),
-          EditProductScreen.routeName: (context) => const EditProductScreen(),
-          AuthScreen.routeName: (context) => AuthScreen(),
-        },
       ),
     ),
   );
