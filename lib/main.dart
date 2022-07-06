@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import './providers/auth_provider.dart';
+import './screens/auth_screen.dart';
 import './screens/edit_product_screen.dart';
 import './screens/orders_screen.dart';
 import './screens/user_products_screen.dart';
@@ -14,6 +16,9 @@ void main() {
   runApp(
     MultiProvider(
       providers: [
+        ChangeNotifierProvider(
+          create: (context) => Auth(),
+        ),
         ChangeNotifierProvider(
           create: (context) => Products(),
         ),
@@ -35,7 +40,7 @@ void main() {
           ),
           fontFamily: 'Lato',
         ),
-        home: ProductsOverviewScreen(),
+        home: AuthScreen(),
         routes: {
           ProductsDetailScreen.routeName: (context) =>
               const ProductsDetailScreen(),
@@ -45,6 +50,7 @@ void main() {
               ProductsOverviewScreen(),
           UserProductsScreen.routeName: (context) => const UserProductsScreen(),
           EditProductScreen.routeName: (context) => const EditProductScreen(),
+          AuthScreen.routeName: (context) => AuthScreen(),
         },
       ),
     ),
