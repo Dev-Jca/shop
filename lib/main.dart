@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop/screens/splash_screen.dart';
 import './providers/auth_provider.dart';
 import './screens/auth_screen.dart';
 import './screens/edit_product_screen.dart';
@@ -32,8 +33,8 @@ void main() {
         ),
         ChangeNotifierProxyProvider<Auth, Orders>(
           update: (context, auth, previousOrders) => Orders(
-            auth.token,
-            auth.userId,
+            auth.token!,
+            auth.userId!,
             previousOrders == null ? [] : previousOrders.orders,
           ),
           create: (context) => Orders('', '', []),
@@ -51,7 +52,29 @@ void main() {
             ),
             fontFamily: 'Lato',
           ),
-          home: auth.isAuth ? ProductsOverviewScreen() : AuthScreen(),
+          home: auth.isAuth
+              ? ProductsOverviewScreen()
+              : FutureBuilder(
+                  future: auth.tryAutoLogin(),
+                  builder: (context, snapshot) {
+                    return snapshot.connectionState == ConnectionState.waiting
+                        ? const SplashScreen()
+                        : AuthScreen();
+
+                    // if (snapshot.connectionState == ConnectionState.waiting) {
+                    //   return const SplashScreen();
+                    // }
+
+                    // if (snapshot.hasError) {
+                    //   return AuthScreen();
+                    // }
+
+                    // if (snapshot.hasData && snapshot.data != null) {
+                    //   return ProductsOverviewScreen();
+                    // } else {
+                    //   return AuthScreen();
+                    // }
+                  }),
           routes: {
             ProductsDetailScreen.routeName: (context) =>
                 const ProductsDetailScreen(),

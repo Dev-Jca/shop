@@ -30,7 +30,7 @@ class ProductItem extends StatelessWidget {
               return IconButton(
                 color: Theme.of(context).colorScheme.secondary,
                 onPressed: () {
-                  product.toggleFavoriteStatus(auth.token, auth.userId);
+                  product.toggleFavoriteStatus(auth.token!, auth.userId!);
                 },
                 icon: Icon(
                   product.isFavorite ? Icons.favorite : Icons.favorite_border,
@@ -71,9 +71,15 @@ class ProductItem extends StatelessWidget {
             Navigator.of(context).pushNamed(ProductsDetailScreen.routeName,
                 arguments: product.id);
           },
-          child: Image.network(
-            product.imageUrl,
-            fit: BoxFit.cover,
+          child: Hero(
+            tag: product.id,
+            child: FadeInImage(
+              placeholder: AssetImage('assets/images/product-placeholder.png'),
+              image: NetworkImage(
+                product.imageUrl,
+              ),
+              fit: BoxFit.cover,
+            ),
           ),
         ),
       ),
