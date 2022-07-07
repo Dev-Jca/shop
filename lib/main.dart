@@ -32,8 +32,11 @@ void main() {
         ),
         ChangeNotifierProxyProvider<Auth, Orders>(
           update: (context, auth, previousOrders) => Orders(
-              auth.token, previousOrders == null ? [] : previousOrders.orders),
-          create: (context) => Orders('', []),
+            auth.token,
+            auth.userId,
+            previousOrders == null ? [] : previousOrders.orders,
+          ),
+          create: (context) => Orders('', '', []),
         ),
       ],
       child: Consumer<Auth>(
